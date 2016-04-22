@@ -41,8 +41,14 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IHandleCommand.cs" />
-    <Compile Include="IHandleQuery.cs" />
+    <Compile Include="Bus\IBus.cs" />
+    <Compile Include="Bus\IPublishEvents.cs" />
+    <Compile Include="Bus\ISendCommands.cs" />
+    <Compile Include="Bus\ISubmitQueries.cs" />
+    <Compile Include="IEvent.cs" />
+    <Compile Include="Handlers\IHandleEvent.cs" />
+    <Compile Include="Handlers\IHandleCommand.cs" />
+    <Compile Include="Handlers\IHandleQuery.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="Internal\Ensure.cs" />
     <Compile Include="Internal\ExpressionExtensions.cs" />

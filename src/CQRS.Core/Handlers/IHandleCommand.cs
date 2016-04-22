@@ -1,4 +1,4 @@
-namespace CQRS.Core
+namespace CQRS.Core.Handlers
 {
     public interface IHandleCommand<in TCommand> where TCommand : class, ICommand
     {
