@@ -1,20 +1,23 @@
 ﻿using System;
+using CQRS.Core.Internal;
 
 namespace CQRS.Core
 {
-    public struct Version: IEquatable<Version>, IComparable<Version>
+    public struct Version: IEquatable<Version>, IComparable<Version>, IComparable
     {
         public Version(int major, int minor, int revision)
         {
+            Ensure.Range(() => major, 0, int.MaxValue);
+            Ensure.Range(() => minor, 0, int.MaxValue);
+            Ensure.Range(() => revision, 0, int.MaxValue);
+
             Major = major;
             Minor = minor;
             Revision = revision;
         }
 
-        public Version(int major, int minor) : this()
+        public Version(int major, int minor) : this(major, minor, default(int))
         {
-            Major = major;
-            Minor = minor;
         }
 
         public int Major { get; }
@@ -42,7 +45,9 @@ namespace CQRS.Core
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(null, obj))
+                return false;
+
             return obj is Version && Equals((Version)obj);
         }
 
@@ -66,6 +71,14 @@ namespace CQRS.Core
             return Revision.CompareTo(other.Revision);
         }
 
+        public int CompareTo(object obj)
+        {
+            var version = obj as Version?;
+            return version != null ? CompareTo(version.Value) : -1;
+        }
+
+
+
         // Equality operator. Returns null if either operand is null, 
         // otherwise returns dbTrue or dbFalse:
         public static bool operator ==(Version a, Version b)
@@ -77,10 +90,10 @@ namespace CQRS.Core
         // dbNull, otherwise returns dbTrue or dbFalse:
         public static bool operator !=(Version a, Version b)
         {
-            return a.Equals(b);
+            return !a.Equals(b);
         }
 
-        // Overload the conversion from DBBool to string:
+        // Overload the conversion to string:
         public static implicit operator string(Version v)
         {
             return v.ToString();

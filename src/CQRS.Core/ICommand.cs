@@ -2,10 +2,7 @@
 
 namespace CQRS.Core
 {
-    public interface ICommand
+    public interface ICommand : IMessage
     {
-        Guid Id { get; }
-
-        Version Version { get; }
     }
 }
